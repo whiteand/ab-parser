@@ -1,3 +1,4 @@
+import { get, look } from "./constructors";
 import { P } from "./types";
 
 export function fmap<T, U>(fn: (elem: T) => U, p: P<T>): P<U> {
@@ -5,15 +6,9 @@ export function fmap<T, U>(fn: (elem: T) => U, p: P<T>): P<U> {
     case "fail":
       return p;
     case "get":
-      return {
-        type: "get",
-        get: (char) => fmap(fn, p.get(char)),
-      };
+      return get((char) => fmap(fn, p(char)));
     case "look":
-      return {
-        type: "look",
-        look: (str) => fmap(fn, p.look(str)),
-      };
+      return look((str) => fmap(fn, p(str)));
     case "result":
       return {
         type: "result",
