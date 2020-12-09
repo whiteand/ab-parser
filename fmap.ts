@@ -23,9 +23,12 @@ export function fmap<T, U>(fn: (elem: T) => U, p: P<T>): P<U> {
     case "final":
       return {
         type: "final",
-        iterator: function* () {
-          for (const entry of p.iterator) {
-          }
+        iterable: {
+          *[Symbol.iterator]() {
+            for (const entry of p.iterable) {
+              yield [fn(entry[0]), entry[1]];
+            }
+          },
         },
       };
   }

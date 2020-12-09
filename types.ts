@@ -22,7 +22,7 @@ interface IResult<A> {
 
 interface IFinal<A> {
   readonly type: "final";
-  readonly iterator: Iterator<Entry<A>>;
+  readonly iterable: Iterable<Entry<A>>;
 }
 
 export type P<A> = IGet<A> | ILook<A> | IFail | IResult<A> | IFinal<A>;
