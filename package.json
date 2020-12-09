@@ -1,0 +1,16 @@
+{
+  "name": "ab-parser",
+  "version": "0.0.1",
+  "description": "JS version of Haskell Text.PraserCombinators.ReadP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc ."
+  },
+  "author": "Andrew Beletskiy <andrewbeletskiy@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "typescript": "^4.1.2"
+  }
+}
