@@ -3,43 +3,43 @@ import { LazyList } from "../list/LazyList";
 import { fromIterable, IList } from "../list/types";
 import { ReadS } from "../types";
 
-interface IGet<T> {
+export interface IGet<T> {
   (c: string): P<T>;
   type: "get";
 }
-interface ILook<T> {
+export interface ILook<T> {
   (s: string): P<T>;
   type: "look";
 }
-interface IFail {
+export interface IFail {
   type: "fail";
 }
-interface IResult<T> {
+export interface IResult<T> {
   type: "result";
   head: T;
   next: P<T>;
 }
 
-interface IFinal<T> {
+export interface IFinal<T> {
   type: "final";
   lst: IList<Entry<T>>;
 }
 
-type P<T> = IGet<T> | ILook<T> | IFail | IResult<T> | IFinal<T>;
+export type P<T> = IGet<T> | ILook<T> | IFail | IResult<T> | IFinal<T>;
 
-function get<T>(fn: (c: string) => P<T>): IGet<T> {
+export function get<T>(fn: (c: string) => P<T>): IGet<T> {
   return Object.assign(fn, { type: "get" as const });
 }
-function look<T>(fn: (c: string) => P<T>): ILook<T> {
+export function look<T>(fn: (c: string) => P<T>): ILook<T> {
   return Object.assign(fn, { type: "look" as const });
 }
 const FAIL: IFail = Object.freeze({ type: "fail" });
 
-function fail(): IFail {
+export function fail(): IFail {
   return FAIL;
 }
 
-function result<T>(head: T, next: P<T>): IResult<T> {
+export function result<T>(head: T, next: P<T>): IResult<T> {
   return {
     type: "result",
     head,
@@ -47,7 +47,7 @@ function result<T>(head: T, next: P<T>): IResult<T> {
   };
 }
 
-function final<T>(lst: IList<Entry<T>>): IFail | IFinal<T> {
+export function final<T>(lst: IList<Entry<T>>): IFail | IFinal<T> {
   if (lst.isEmpty()) {
     return fail();
   }
@@ -89,7 +89,7 @@ export function ap<U, Z, V extends (x: U) => Z>(px: P<U>, pv: P<V>): P<Z> {
   return bind(px, (x) => bind(pv, (f) => pure(f(x))));
 }
 
-function bind<T, U>(p: P<T>, k: (val: T) => P<U>): P<U> {
+export function bind<T, U>(p: P<T>, k: (val: T) => P<U>): P<U> {
   switch (p.type) {
     case "get":
       return get((c) => bind(p(c), k));
@@ -221,7 +221,7 @@ export function alt<T>(p: P<T>, v: P<T>): P<T> {
   }
   return get((c) => alt(p(c), v(c)));
 }
-function run<T>(p: P<T>): ReadS<T> {
+export function run<T>(p: P<T>): ReadS<T> {
   switch (p.type) {
     // run (Get f)         (c:s) = run (f c) s
     case "get":
