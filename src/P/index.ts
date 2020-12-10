@@ -33,7 +33,7 @@ export function get<T>(fn: (c: string) => P<T>): IGet<T> {
 export function look<T>(fn: (c: string) => P<T>): ILook<T> {
   return Object.assign(fn, { type: "look" as const });
 }
-const FAIL: IFail = Object.freeze({ type: "fail" });
+export const FAIL: IFail = Object.freeze({ type: "fail" });
 
 export function fail(): IFail {
   return FAIL;

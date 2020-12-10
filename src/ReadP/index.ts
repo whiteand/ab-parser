@@ -4,7 +4,7 @@
 // {-# LANGUAGE MagicHash #-}
 // {-# LANGUAGE DeriveFunctor #-}
 
-import { P } from "../P";
+import * as P from "../P";
 
 // -----------------------------------------------------------------------------
 // -- |
@@ -165,68 +165,71 @@ import { P } from "../P";
 
 // newtype ReadP a = R (forall b . (a -> P b) -> P b)
 
-export type ReadP<A, B> = (next: (val: A) => P<B>) => P<B>;
+export type ReadP<A, B> = (next: (val: A) => P.P<B>) => P.P<B>;
 
-// -- | @since 2.01
-// instance Functor ReadP where
 //   fmap h (R f) = R (\k -> f (k . h))
+export function fmap<T, U, B>(h: (val: T) => U, f: ReadP<T, B>): ReadP<U, B> {
+  return (k) => f((x) => k(h(x)));
+}
 
-// -- | @since 4.6.0.0
-// instance Applicative ReadP where
-//     pure x = R (\k -> k x)
-//     (<*>) = ap
-//     -- liftA2 = liftM2
+export function pure<T, B>(x: T): ReadP<T, B> {
+  return (k) => k(x);
+}
 
-// -- | @since 2.01
-// instance Monad ReadP where
-//   R m >>= f = R (\k -> m (\a -> let R m' = f a in m' k))
+export function ap<T, U, B>(
+  xp: ReadP<T, B>,
+  fp: ReadP<(x: T) => U, B>
+): ReadP<U, B> {
+  return bind(xp, (x) => bind(fp, (f) => pure(f(x))));
+}
 
-// -- | @since 4.9.0.0
-// instance MonadFail ReadP where
-//   fail _    = R (\_ -> Fail)
+export function bind<T, U, B>(
+  m: ReadP<T, B>,
+  f: (val: T) => ReadP<U, B>
+): ReadP<U, B> {
+  return (k) => m((a) => f(a)(k));
+}
 
-// -- | @since 4.6.0.0
-// instance Alternative ReadP where
-//   empty = pfail
-//   (<|>) = (+++)
+export function fail<T, B>(_: any): ReadP<T, B> {
+  return () => P.FAIL;
+}
 
-// -- | @since 2.01
-// instance MonadPlus ReadP
+export function pfail<T, B>(): ReadP<T, B> {
+  return () => P.FAIL;
+}
 
-// -- ---------------------------------------------------------------------------
-// -- Operations over P
-
-// final :: [(a,String)] -> P a
-// final []     = Fail
-// final (r:rs) = Final (r:|rs)
-
-// run :: P a -> ReadS a
-// run (Get f)         (c:s) = run (f c) s
-// run (Look f)        s     = run (f s) s
-// run (Result x p)    s     = (x,s) : run p s
-// run (Final (r:|rs)) _     = (r:rs)
-// run _               _     = []
-
-// -- ---------------------------------------------------------------------------
-// -- Operations over ReadP
+export function empty<T, B>(): ReadP<T, B> {
+  return () => P.FAIL;
+}
+export function alt<T, B>(f1: ReadP<T, B>, f2: ReadP<T, B>): ReadP<T, V> {
+  return (k) => P.alt(f1(k), f2(k));
+}
 
 // get :: ReadP Char
 // -- ^ Consumes and returns the next character.
 // --   Fails if there is no input left.
 // get = R Get
+export function get<B>(): ReadP<string, B> {
+  return P.get;
+}
 
 // look :: ReadP String
 // -- ^ Look-ahead: returns the part of the input that is left, without
 // --   consuming it.
 // look = R Look
+export function look<B>(): ReadP<string, B> {
+  return P.look;
+}
 
-// pfail :: ReadP a
-// -- ^ Always fails.
-// pfail = R (\_ -> Fail)
-
-// (+++) :: ReadP a -> ReadP a -> ReadP a
-// -- ^ Symmetric choice.
-// R f1 +++ R f2 = R (\k -> f1 k <|> f2 k)
+export function left<T, B>(f0: ReadP<T, B>, qp: ReadP<T, B>): ReadP<T, B> {
+  function probe(p, s, n) {
+    siwtch;
+  }
+  return bind(look(), (s) => {
+    probe(f0(P.pure), s, 0);
+  });
+  throw new Error("");
+}
 
 // (<++) :: ReadP a -> ReadP a -> ReadP a
 // -- ^ Local, exclusive, left-biased choice: If left parser
