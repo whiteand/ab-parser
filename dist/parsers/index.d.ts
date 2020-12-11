@@ -1,5 +1,6 @@
 export * from "./char";
 export * from "./choice";
+export * from "./count";
 export * from "./eof";
 export * from "./fail";
 export * from "./gather";
