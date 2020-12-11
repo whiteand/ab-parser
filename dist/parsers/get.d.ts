@@ -1,5 +1,5 @@
-import { P } from "../types";
+import { Entry } from "../types";
 /**
  * Parses single char
  */
-export declare const get: P<string>;
+export declare function get(text: string): Iterator<Entry<string>>;
