@@ -222,8 +222,14 @@ export function look<B>(): ReadP<string, B> {
 }
 
 export function left<T, B>(f0: ReadP<T, B>, qp: ReadP<T, B>): ReadP<T, B> {
-  function probe(p, s, n) {
-    siwtch;
+  function probe(p: P<T>, s: string, n: number) {
+    switch (p.type) {
+      case "get":
+        return probe(p(s[0]), s.slice(1), n + 1);
+      case "look":
+        return probe(p(s), s, n);
+    }
+    throw new Error("");
   }
   return bind(look(), (s) => {
     probe(f0(P.pure), s, 0);
