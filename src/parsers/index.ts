@@ -1,4 +1,5 @@
 export * from "./char";
+export * from "./choice";
 export * from "./eof";
 export * from "./fail";
 export * from "./gather";
@@ -8,4 +9,5 @@ export * from "./look";
 export * from "./munch";
 export * from "./munch1";
 export * from "./satisfy";
+export * from "./skipSpaces";
 export * from "./sym";
