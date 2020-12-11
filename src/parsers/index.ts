@@ -1,3 +1,4 @@
+export * from "./between";
 export * from "./char";
 export * from "./choice";
 export * from "./count";
