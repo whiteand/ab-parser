@@ -12,4 +12,5 @@ export * from "./munch";
 export * from "./munch1";
 export * from "./satisfy";
 export * from "./skipSpaces";
+export * from "./string";
 export * from "./sym";

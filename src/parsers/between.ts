@@ -2,20 +2,24 @@ import { P } from "types";
 
 export function between<A, B, C>(open: P<A>, close: P<C>, parser: P<B>): P<B> {
   return function* (text) {
-    const opIt = open(text);
+    const openIt = open(text);
     while (true) {
-      const openEntry = opIt.next();
-      if (openEntry.done) return;
-      const valueIt = parser(openEntry.value.rest);
+      const openItEntry = openIt.next();
+      if (openItEntry.done) return;
+      const { value: openEntry } = openItEntry;
+
+      const parserIt = parser(openEntry.rest);
       while (true) {
-        const valueItEntry = valueIt.next();
-        if (valueItEntry.done) break;
-        const closeIt = close(text);
+        const parserItEntry = parserIt.next();
+        if (parserItEntry.done) break;
+        const { value: parserEntry } = parserItEntry;
+
+        const closeIt = close(parserEntry.rest);
         while (true) {
           const closeItEntry = closeIt.next();
           if (closeItEntry.done) break;
-          const rest = closeItEntry.value.rest;
-          yield { value: valueItEntry.value.value, rest };
+          const { value: closeEntry } = closeItEntry;
+          yield { value: parserEntry.value, rest: closeEntry.rest };
         }
       }
     }

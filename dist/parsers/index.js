@@ -24,4 +24,5 @@ __exportStar(require("./munch"), exports);
 __exportStar(require("./munch1"), exports);
 __exportStar(require("./satisfy"), exports);
 __exportStar(require("./skipSpaces"), exports);
+__exportStar(require("./string"), exports);
 __exportStar(require("./sym"), exports);
