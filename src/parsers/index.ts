@@ -11,6 +11,7 @@ export * from "./look";
 export * from "./munch";
 export * from "./munch1";
 export * from "./option";
+export * from "./optional";
 export * from "./satisfy";
 export * from "./skipSpaces";
 export * from "./string";
