@@ -1,4 +1,4 @@
-import { Dequeue } from "ds/dequeue";
+import { Dequeue } from "../ds/dequeue";
 import { P } from "types";
 import { fail } from "./fail";
 import { sym } from "./sym";
@@ -14,7 +14,8 @@ export function choice<T>(ps: P<T>[]): P<T> {
   if (ps.length % 2 === 1) {
     dequeue.pushEnd(ps[ps.length - 1] as P<T>);
   }
-  while (dequeue.length > 1) {
+  while (dequeue.length >= 2) {
+    console.log(dequeue.length);
     const first = dequeue.popStart();
     const second = dequeue.popStart();
     dequeue.pushEnd(sym(first, second));
