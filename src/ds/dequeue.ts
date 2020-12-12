@@ -38,6 +38,7 @@ export class Dequeue<T> implements IDequeue<T> {
       prev: null,
       next: this.first,
     };
+    this.first.prev = newFirst;
     this.first = newFirst;
     this.length++;
   }
@@ -51,6 +52,7 @@ export class Dequeue<T> implements IDequeue<T> {
       prev: this.last,
       next: null,
     };
+    this.last.next = newLast;
     this.last = newLast;
     this.length++;
   }
@@ -77,5 +79,16 @@ export class Dequeue<T> implements IDequeue<T> {
     this.last = this.last.prev;
     this.length--;
     return res;
+  }
+
+  public toString() {
+    if (this.length <= 0) return "<>";
+    const elements: T[] = [];
+    let current = this.first;
+    while (current) {
+      elements.push(current.value);
+      current = current.next;
+    }
+    return "<" + elements.join(" | ") + ">";
   }
 }

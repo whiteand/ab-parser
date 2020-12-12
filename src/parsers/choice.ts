@@ -15,7 +15,6 @@ export function choice<T>(ps: P<T>[]): P<T> {
     dequeue.pushEnd(ps[ps.length - 1] as P<T>);
   }
   while (dequeue.length >= 2) {
-    console.log(dequeue.length);
     const first = dequeue.popStart();
     const second = dequeue.popStart();
     dequeue.pushEnd(sym(first, second));
