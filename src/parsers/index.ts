@@ -8,6 +8,7 @@ export * from "./gather";
 export * from "./get";
 export * from "./left";
 export * from "./look";
+export * from "./many";
 export * from "./munch";
 export * from "./munch1";
 export * from "./option";
