@@ -21,6 +21,7 @@ __exportStar(require("./get"), exports);
 __exportStar(require("./left"), exports);
 __exportStar(require("./look"), exports);
 __exportStar(require("./many"), exports);
+__exportStar(require("./many1"), exports);
 __exportStar(require("./munch"), exports);
 __exportStar(require("./munch1"), exports);
 __exportStar(require("./option"), exports);
