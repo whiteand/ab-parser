@@ -10,6 +10,7 @@ export * from "./left";
 export * from "./look";
 export * from "./munch";
 export * from "./munch1";
+export * from "./option";
 export * from "./satisfy";
 export * from "./skipSpaces";
 export * from "./string";
