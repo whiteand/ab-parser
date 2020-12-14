@@ -13,3 +13,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./parsers"), exports);
 __exportStar(require("./run"), exports);
 __exportStar(require("./types"), exports);
+__exportStar(require("./ds/PQueue"), exports);
+__exportStar(require("./ds/dequeue"), exports);
